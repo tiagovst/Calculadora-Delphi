@@ -65,8 +65,7 @@ implementation
 
 procedure TMain.FormCreate(Sender: TObject);
 begin
-  if calculator = nil then
-    calculator := TCalc.Create;
+  calculator := TCalc.Create;
 end;
 
 procedure TMain.ProcessTasks;
@@ -194,8 +193,8 @@ end;
 procedure TMain.LoadValues;
 begin
   calculator.Clean;
-  calculator.include(value1);
-  calculator.include(value2);
+  calculator.include(StrToFloatDef(value1, 0.0));
+  calculator.include(StrToFloatDef(value2, 0.0));
 end;
 
 procedure TMain.ShowTotal;

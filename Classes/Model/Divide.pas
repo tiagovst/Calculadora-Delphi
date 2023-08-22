@@ -7,12 +7,12 @@ uses System.Generics.Collections, Model.Calc.Interfaces;
 type
   TDivide = class
     private
-      FList: TList<Variant>;
-      FTotal: Variant;
+      FList: TList<Double>;
+      FTotal: Double;
     public
       constructor Create;
-      function Execute: Variant;
-      property ValueList: TList<Variant> read FList write Flist;
+      function Execute: Double;
+      property ValueList: TList<Double> read FList write Flist;
   end;
 
 implementation
@@ -20,15 +20,21 @@ implementation
 
 constructor TDivide.Create;
 begin
-  FList := TList<Variant>.Create;
+  FList := TList<Double>.Create;
 end;
 
-function TDivide.Execute: Variant;
+function TDivide.Execute: Double;
 var
   index: Integer;
 begin
-  FTotal := 0;
-  for index := 0 to Pred(FList.Count) do
+  if FList.Count = 0 then
+  begin
+    result := 0.0;
+    Exit;
+  end;
+
+  FTotal := FList[0];
+  for index := 1 to Pred(FList.Count) do
     FTotal := FTotal / FList[index];
 
   result := FTotal;

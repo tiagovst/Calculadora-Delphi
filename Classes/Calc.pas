@@ -8,8 +8,8 @@ Subtract;
 type
   TCalc = class
     private
-      FLista: TList<Variant>;
-      FTotal: Variant;
+      FLista: TList<Double>;
+      FTotal: Double;
       FSum: TSum;
       FDiv: TDivide;
       FSub: TSubtract;
@@ -19,8 +19,8 @@ type
       destructor Destroy; override;
 
       procedure Clean;
-      procedure include(Value: Variant);
-      function Total: Variant;
+      procedure include(Value: Double);
+      function Total: Double;
       procedure Sum;
       procedure Multiply;
       procedure Divide;
@@ -35,7 +35,7 @@ begin
   FDiv := TDivide.Create;
   FSub := TSubtract.Create;
   FMulti := TMultiply.Create;
-  FLista := TList<Variant>.Create;
+  FLista := TList<Double>.Create;
 end;
 
 destructor TCalc.Destroy;
@@ -53,7 +53,7 @@ begin
   FLista.Clear;
 end;
 
-procedure TCalc.include(Value: Variant);
+procedure TCalc.include(Value: Double);
 begin
   FLista.Add(Value);
 end;
@@ -82,7 +82,7 @@ begin
   FTotal := FDiv.Execute;
 end;
 
-function TCalc.Total: Variant;
+function TCalc.Total: Double;
 begin
   result := FTotal;
 end;

@@ -7,12 +7,12 @@ uses System.Generics.Collections, Model.Calc.Interfaces;
 type
   TMultiply = class
     private
-      FList: TList<Variant>;
-      FTotal: Variant;
+      FList: TList<Double>;
+      FTotal: Double;
     public
       constructor Create;
-      function Execute: Variant;
-      property ValueList: TList<Variant> read FList write Flist;
+      function Execute: Double;
+      property ValueList: TList<Double> read FList write Flist;
   end;
 
 implementation
@@ -20,16 +20,16 @@ implementation
 
 constructor TMultiply.Create;
 begin
-  FList := TList<Variant>.Create;
+  FList := TList<Double>.Create;
 end;
 
-function TMultiply.Execute: Variant;
+function TMultiply.Execute: Double;
 var
   index: Integer;
 begin
-  FTotal := 0;
+  FTotal := 1;
   for index := 0 to Pred(FList.Count) do
-    FTotal := FTotal + FList[index];
+    FTotal := FTotal * FList[index];
 
   result := FTotal;
 end;
