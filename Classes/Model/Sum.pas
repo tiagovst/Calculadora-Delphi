@@ -27,7 +27,7 @@ function TSum.Execute: Double;
 var
   index: Integer;
 begin
-  if FList.Count < 0 then
+  if FList.Count = 0 then
   begin
     result := 0.0;
     Exit;

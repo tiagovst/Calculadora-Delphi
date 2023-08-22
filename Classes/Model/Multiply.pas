@@ -27,8 +27,14 @@ function TMultiply.Execute: Double;
 var
   index: Integer;
 begin
-  FTotal := 1;
-  for index := 0 to Pred(FList.Count) do
+  if FList.Count = 0 then
+  begin
+    result := 0.0;
+    Exit;
+  end;
+
+  FTotal := FList[0];
+  for index := 1 to Pred(FList.Count) do
     FTotal := FTotal * FList[index];
 
   result := FTotal;
