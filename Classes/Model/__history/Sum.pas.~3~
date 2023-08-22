@@ -1,0 +1,20 @@
+unit Sum;
+
+interface
+
+uses System.Generics.Collections, Model.Calc.Interface;
+
+type
+  TSum = class
+    private
+      FList: TList<Variant>;
+      FTotal: Variant;
+    public
+      constructor Create;
+      function Executar: Variant;
+      property ValueList: TList<Variant> read FList write Flist;
+  end;
+
+implementation
+
+end.

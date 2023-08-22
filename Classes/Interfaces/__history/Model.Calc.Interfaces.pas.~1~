@@ -1,0 +1,7 @@
+unit Model.Calc.Interfaces;
+
+interface
+
+implementation
+
+end.

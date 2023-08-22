@@ -1,0 +1,16 @@
+unit Model.Calc.Interfaces;
+
+interface
+
+type
+  iModelCalc = Interface
+    ['{D8E6D73C-8068-4C66-A2DE-B29A0E846E0F}']
+    procedure Execute;
+    procedure Clear;
+    procedure Add(value: Variant);
+    function Total : variant;
+  End;
+
+implementation
+
+end.
