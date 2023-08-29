@@ -3,12 +3,13 @@ unit Calc;
 interface
 
 uses Model.Calc.Interfaces, System.Generics.Collections, Sum, Divide, Multiply,
-Subtract;
+Subtract, System.SysUtils;
 
 type
   TCalc = class
     private
-      FLista: TList<Double>;
+      FList: TList<String>;
+      FListSign: TList<String>;
       FTotal: Double;
       FSum: TSum;
       FDiv: TDivide;
@@ -18,13 +19,16 @@ type
       constructor Create;
       destructor Destroy; override;
 
-      procedure Clean;
-      procedure include(Value: Double);
       function Total: Double;
-      procedure Sum;
-      procedure Multiply;
-      procedure Divide;
-      procedure Subtract;
+
+      procedure Clean;
+      procedure UpdateList(index: Integer);
+      procedure CalculateValues;
+      procedure Include(Value: String);
+      procedure Sum(index1: Integer; index2: Integer);
+      procedure Multiply(index1: Integer; index2: Integer);
+      procedure Divide(index1: Integer; index2: Integer);
+      procedure Subtract(index1: Integer; index2: Integer);
   end;
 
 implementation
@@ -35,7 +39,8 @@ begin
   FDiv := TDivide.Create;
   FSub := TSubtract.Create;
   FMulti := TMultiply.Create;
-  FLista := TList<Double>.Create;
+  FList := TList<String>.Create;
+  FListSign := TList<String>.Create;
 end;
 
 destructor TCalc.Destroy;
@@ -44,42 +49,97 @@ begin
   FMulti.Free;
   FSub.Free;
   FDiv.Free;
-  FLista.Free;
+  FList.Free;
   inherited Destroy;
 end;
 
 procedure TCalc.Clean;
 begin
-  FLista.Clear;
+  FList.Clear;
 end;
 
-procedure TCalc.include(Value: Double);
+procedure TCalc.UpdateList(index: Integer);
 begin
-  FLista.Add(Value);
+  FList.Delete(index-1);
+  FList.Delete(index-1);
+  FList.Insert(index-1, FloatToStr(FTotal));
+  FList.Delete(index);
 end;
 
-procedure TCalc.Sum;
+procedure TCalc.CalculateValues;
+var
+  index: Integer;
 begin
-  FSum.ValueList := FLista;
-  FTotal := FSum.Execute;
+
+  // loop that calculates * and /
+  index := 0;
+  while index < FList.Count do
+  begin
+    if FList[index] = '*' then
+    begin
+      Multiply(index - 1, index + 1);
+      UpdateList(index);
+    end
+    else if FList[index] = '/' then
+    begin
+      Divide(index - 1, index + 1);
+      UpdateList(index);
+    end
+    else
+    begin
+      index := index + 1;
+    end;
+  end;
+
+
+  // loop that calculates + and -
+  index := 0;
+  while index < FList.Count do
+  begin
+    if FList[index] = '+' then
+    begin
+      Sum(index - 1, index + 1);
+      UpdateList(index);
+    end
+    else if FList[index] = '-' then
+    begin
+      Subtract(index - 1, index + 1);
+      UpdateList(index);
+    end
+    else
+    begin
+      index := index + 1;
+    end;
+  end;
 end;
 
-procedure TCalc.Subtract;
+procedure TCalc.include(Value: String);
 begin
-  FSub.ValueList := FLista;
-  FTotal := FSub.Execute;
+  FList.Add(Value);
 end;
 
-procedure TCalc.Multiply;
+procedure TCalc.Sum(index1: Integer; index2: Integer);
 begin
-  FMulti.ValueList := FLista;
-  FTotal := FMulti.Execute;
+  FSum.ValueList := FList;
+  FTotal := FSum.Execute(index1, index2);
 end;
 
-procedure TCalc.Divide;
+procedure TCalc.Subtract(index1: Integer; index2: Integer);
 begin
-  FDiv.ValueList := FLista;
-  FTotal := FDiv.Execute;
+  FSub.ValueList := FList;
+  FTotal := FSub.Execute(index1, index2);
+end;
+
+procedure TCalc.Multiply(index1: Integer; index2: Integer);
+begin
+  FMulti.ValueList := FList;
+  FTotal := FMulti.Execute(index1, index2);
+end;
+
+procedure TCalc.Divide(index1: Integer; index2: Integer);
+begin
+  FDiv.ValueList := FList;
+  FTotal := FDiv.Execute(index1, index2);
 end;
 
 function TCalc.Total: Double;

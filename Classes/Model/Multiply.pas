@@ -2,17 +2,17 @@ unit Multiply;
 
 interface
 
-uses System.Generics.Collections, Model.Calc.Interfaces;
+uses System.Generics.Collections, Model.Calc.Interfaces, System.SysUtils;
 
 type
   TMultiply = class
     private
-      FList: TList<Double>;
+      FList: TList<String>;
       FTotal: Double;
     public
       constructor Create;
-      function Execute: Double;
-      property ValueList: TList<Double> read FList write Flist;
+      function Execute(index1: Integer; index2: Integer): Double;
+      property ValueList: TList<String> read FList write Flist;
   end;
 
 implementation
@@ -20,10 +20,10 @@ implementation
 
 constructor TMultiply.Create;
 begin
-  FList := TList<Double>.Create;
+  FList := TList<String>.Create;
 end;
 
-function TMultiply.Execute: Double;
+function TMultiply.Execute(index1: Integer; index2: Integer): Double;
 var
   index: Integer;
 begin
@@ -33,10 +33,7 @@ begin
     Exit;
   end;
 
-  FTotal := FList[0];
-  for index := 1 to Pred(FList.Count) do
-    FTotal := FTotal * FList[index];
-
+  FTotal := StrToFloat(FList[index1]) * StrToFloat(FList[index2]);
   result := FTotal;
 end;
 

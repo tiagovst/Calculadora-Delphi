@@ -1,0 +1,43 @@
+unit Multiply;
+
+interface
+
+uses System.Generics.Collections, Model.Calc.Interfaces;
+
+type
+  TMultiply = class
+    private
+      FList: TList<String>;
+      FTotal: Double;
+    public
+      constructor Create;
+      function Execute: String;
+      property ValueList: TList<String> read FList write Flist;
+  end;
+
+implementation
+
+
+constructor TMultiply.Create;
+begin
+  FList := TList<String>.Create;
+end;
+
+function TMultiply.Execute: String;
+var
+  index: Integer;
+begin
+  if FList.Count = 0 then
+  begin
+    result := 0.0;
+    Exit;
+  end;
+
+  FTotal := FList[0];
+  for index := 1 to Pred(FList.Count) do
+    FTotal := FTotal * FList[index];
+
+  result := FTotal;
+end;
+
+end.

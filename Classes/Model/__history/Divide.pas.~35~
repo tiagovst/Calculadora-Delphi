@@ -1,0 +1,43 @@
+unit Divide;
+
+interface
+
+uses System.Generics.Collections, Model.Calc.Interfaces;
+
+type
+  TDivide = class
+    private
+      FList: TList<String>;
+      FTotal: String;
+    public
+      constructor Create;
+      function Execute(index1: Integer; index2: Integer): String;
+      property ValueList: TList<String> read FList write Flist;
+  end;
+
+implementation
+
+
+constructor TDivide.Create;
+begin
+  FList := TList<String>.Create;
+end;
+
+function TDivide.Execute(index1: Integer; index2: Integer): Double;
+var
+  index: Integer;
+begin
+  if FList.Count = 0 then
+  begin
+    result := '0.0';
+    Exit;
+  end;
+
+  FTotal := FList[0];
+  for index := 1 to Pred(FList.Count) do
+    FTotal := FTotal / FList[index];
+
+  result := FTotal;
+end;
+
+end.

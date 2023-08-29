@@ -175,4 +175,13 @@ object Main: TMain
     TabOrder = 14
     OnClick = btnZeroClick
   end
+  object btnClearEveryThing: TButton
+    Left = 182
+    Top = 97
+    Width = 50
+    Height = 25
+    Caption = 'CE'
+    TabOrder = 15
+    OnClick = btnClearEveryThingClick
+  end
 end

@@ -25,6 +25,7 @@ type
     btnThree: TButton;
     btnCalc: TButton;
     btnZero: TButton;
+    btnClearEveryThing: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnZeroClick(Sender: TObject);
     procedure btnOneClick(Sender: TObject);
@@ -41,19 +42,18 @@ type
     procedure btnMultiplicationClick(Sender: TObject);
     procedure btnDivisionClick(Sender: TObject);
     procedure btnCalcClick(Sender: TObject);
+    procedure btnClearEveryThingClick(Sender: TObject);
 
   private
     log: String;
     sign: String;
-    procedure LoadValues;
+    procedure LoadValues(value: String);
     procedure ShowTotal;
-    procedure CalculateValues;
     procedure ProcessTasks;
+    procedure ClearEverything;
   public
     { Public declarations }
     calculator: TCalc;
-    value1: String;
-    value2: String;
   end;
 
 var
@@ -68,48 +68,38 @@ begin
   calculator := TCalc.Create;
 end;
 
-procedure TMain.ProcessTasks;
+procedure TMain.ClearEverything;
 begin
-  value1 := lblResult.Caption;
+  sign := '';
+  calculator.Clean;
   log := '';
   lblResult.Caption := '0';
 end;
 
-procedure TMain.CalculateValues;
+procedure TMain.ProcessTasks;
 begin
-  value2 := lblResult.Caption;
-
-  LoadValues;
-
-  if (sign.Equals('+')) then
-  begin
-    calculator.Sum;
-  end
-  else if (sign.Equals('-')) then
-  begin
-    calculator.Subtract;
-  end
-  else if (sign.Equals('/')) then
-  begin
-    calculator.Divide;
-  end
-  else if (sign.Equals('*')) then
-  begin
-    calculator.Multiply;
-  end;
-
-  ShowTotal;
+  LoadValues(lblResult.Caption);
+  log := '';
+  lblResult.Caption := '0';
 end;
 
 procedure TMain.btnCalcClick(Sender: TObject);
 begin
-  CalculateValues;
+  ProcessTasks;
+  calculator.CalculateValues;
+  ShowTotal;
+end;
+
+procedure TMain.btnClearEveryThingClick(Sender: TObject);
+begin
+  ClearEverything;
 end;
 
 procedure TMain.btnDivisionClick(Sender: TObject);
 begin
-  ProcessTasks;
   sign := '/';
+  ProcessTasks;
+  LoadValues(sign);
 end;
 
 procedure TMain.btnEigthClick(Sender: TObject);
@@ -132,8 +122,9 @@ end;
 
 procedure TMain.btnMultiplicationClick(Sender: TObject);
 begin
-  ProcessTasks;
   sign := '*';
+  ProcessTasks;
+  LoadValues(sign);
 end;
 
 procedure TMain.btnNineClick(Sender: TObject);
@@ -162,14 +153,16 @@ end;
 
 procedure TMain.btnSubtractionClick(Sender: TObject);
 begin
-  ProcessTasks;
   sign := '-';
+  ProcessTasks;
+  LoadValues(sign);
 end;
 
 procedure TMain.btnSumClick(Sender: TObject);
 begin
-  ProcessTasks;
   sign := '+';
+  ProcessTasks;
+  LoadValues(sign);
 end;
 
 procedure TMain.btnThreeClick(Sender: TObject);
@@ -190,11 +183,9 @@ begin
   log := log + '0';
 end;
 
-procedure TMain.LoadValues;
+procedure TMain.LoadValues(value: String);
 begin
-  calculator.Clean;
-  calculator.include(StrToFloatDef(value1, 0.0));
-  calculator.include(StrToFloatDef(value2, 0.0));
+  calculator.Include(value);
 end;
 
 procedure TMain.ShowTotal;
